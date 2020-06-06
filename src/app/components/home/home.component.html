@@ -1,0 +1,98 @@
+<div class="container">
+  <!-- TITLE -->
+  <div class="row mt-3 mb-3">
+    <div class="col">
+      <h3 *ngIf="!isHeadlines">Home</h3>
+      <h3 *ngIf="isHeadlines">Headlines</h3>
+    </div>
+  </div>
+  <!-- SEARCH QUERY STRING .. in both everything & headlines -->
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          placeholder="Search..."
+          class="form-control"
+          [(ngModel)]="queryQStr"
+          name="queryQ"
+        />
+        <div class="input-group-append search-icon" (click)="onSearchQClick()">
+          <span class="material-icons">
+            search
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <!-- SOURCES .. EVERYTHING -->
+    <div *ngIf="!isHeadlines" class="col-md-3 col-sm-4">
+      <ng-select
+        title="Sources"
+        name="sources"
+        [items]="sources"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedSourceId"
+        (change)="onSourceChange()"
+      >
+      </ng-select>
+    </div>
+    <!-- SOURCES .. Headlines .. OnChange() changed logic -->
+    <div *ngIf="isHeadlines" class="col-md-3 col-sm-4">
+      <ng-select
+        title="Sources"
+        name="sources"
+        [items]="sources"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedSourceId"
+        (change)="onSourceChangeForHeadlines()"
+      >
+      </ng-select>
+    </div>
+    <!-- COUNTRIES -->
+    <div *ngIf="isHeadlines" class="col-md-3 col-sm-4 mt-sm">
+      <ng-select
+        title="Countries"
+        name="countries"
+        [items]="countries"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedCountry"
+        (change)="onCountryChange()"
+      >
+      </ng-select>
+    </div>
+    <div class="col"></div>
+  </div>
+  <!-- ARTICLES -->
+  <div class="row mb-2" *ngFor="let article of articles">
+    <div class="col">
+      <app-article
+        [article]="article"
+        (currentArticle)="onArticleClick($event)"
+      ></app-article>
+    </div>
+  </div>
+  <!-- PAGINATION SECTION -->
+  <div class="row mt-3" *ngIf="articles.length">
+    <div class="col"></div>
+    <div class="col">
+      <ngb-pagination
+        [collectionSize]="totalResults"
+        #numPages
+        [pageSize]="10"
+        [(page)]="currentPage"
+        (pageChange)="onPageChange()"
+      ></ngb-pagination>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row mt-3" *ngIf="totalResults === 0">
+    <div class="col"><app-no-results></app-no-results></div>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

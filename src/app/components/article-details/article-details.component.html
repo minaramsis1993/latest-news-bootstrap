@@ -1,0 +1,41 @@
+<div class="container mt-5" *ngIf="article">
+  <div class="row">
+    <div class="col flexy">
+      <div
+        class="mr-3"
+        *ngIf="article.urlToImage != null && article.urlToImage != 'null'"
+      >
+        <img
+          [src]="article.urlToImage"
+          alt="Img"
+          class="img-fluid card-img card-img-bg-details"
+        />
+      </div>
+      <div>
+        <h3 class="mb-4 h3-mb-sm">{{ article.title }}</h3>
+        <p class="lead bolder">Source: {{ article.source.name }}</p>
+        <p class="lead bolder" *ngIf="article.author !== null">
+          Author: {{ article.author }}
+        </p>
+        <p class="lead bolder" style="font-size: 1.05rem;">
+          Published at: {{ article.publishedAt }}
+        </p>
+        <div>
+          <a
+            class="anchor-link-default anchor-bg"
+            [href]="article.url"
+            target="_blank"
+            >Open original post</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <p>
+        {{ article.description }}
+      </p>
+    </div>
+  </div>
+</div>
